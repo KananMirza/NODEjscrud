@@ -153,12 +153,10 @@ const isciGetirEmail = async(req,res) =>{
  const login = async(req,res) =>{
     try{
      const data = await generalModel.login(req.query.email,req.query.password);
-     
-     console.log(req.query.password)
 
      if(data){
          res.json({
-             data: "Welcome",
+             data: data,
              success : true
          });
      }else{

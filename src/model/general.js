@@ -45,29 +45,19 @@ const mailGetir = async (email) => {
 
 const login = async (email,password) => {
   return new Promise( async (resolve, reject) => {
-    const query = `SELECT * FROM employees where email=? AND password=?`;
-    const pass = await bcrypt.hash(password,10);
-    // console.log(pass)
-    // console.log(password)
-  
-    const filter = [email,pass];
-
-   
-    
-
-    DB.query(query, filter, async (err, result, fields) => {
-      if (err) {
-        resolve(err);
-        return 0;
-      }
-      if (result === undefined || !result || result.length === 0) {
-        resolve(0);
-        return 0;
-      }
-      
-        resolve(0);
-        return 1;    
-    });
+    const user = await mailGetir(email);
+    let current_pass;
+    if(user[0].email){
+      current_pass = user[0].password;
+    }
+    const check_pass = await bcrypt.compare(password,current_pass);
+    if(check_pass){
+      resolve(user);
+      return 1;
+    }else{
+      reject("NOT FOUND")
+      return 0;
+    }
   });
 };
 
