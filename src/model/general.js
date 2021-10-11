@@ -1,6 +1,13 @@
 const DB = require("../DB/connection");
 const moment = require("moment");
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+
+exports.GenerateToken = async function(result){
+  const LoginUser = result;
+  const token = await jwt.sign({_id:LoginUser[0].id,email:LoginUser[0].email},"ayy@qaa",{});
+  return token;
+};
 
 
 const isciGetir = async () => {
@@ -50,9 +57,12 @@ const login = async (email,password) => {
     if(user[0].email){
       current_pass = user[0].password;
     }
+    console.log(user[0].email);
     const check_pass = await bcrypt.compare(password,current_pass);
+    console.log(check_pass);
     if(check_pass){
-      resolve(user);
+      const token = await this.GenerateToken(user);
+      resolve(token)
       return 1;
     }else{
       reject("NOT FOUND")

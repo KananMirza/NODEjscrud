@@ -152,6 +152,7 @@ const isciGetirEmail = async(req,res) =>{
 
  const login = async(req,res) =>{
     try{
+        console.log(req.query);
      const data = await generalModel.login(req.query.email,req.query.password);
 
      if(data){
@@ -175,11 +176,32 @@ const isciGetirEmail = async(req,res) =>{
    
  }
 
+ const myData = async(req,res,next) =>{
+    try{
+     if(req.user){
+         res.json({
+             data: req.user,
+             status : true
+         });
+     }else{
+         res.json({
+             data: 'Nc NC',
+             status : false
+         });
+     }
+ 
+    }catch(err){
+        next()
+    }
+   
+ }
+
 module.exports  = {
     isciGetir,
     isciGetirEmail,
     isciSil,
     isciElave,
     isciRedakte,
-    login
+    login,
+    myData
 }
