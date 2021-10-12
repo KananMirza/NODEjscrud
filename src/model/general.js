@@ -95,7 +95,7 @@ const isciSil = async (id) => {
 const isciElaveEt = async (namelastname, position, salary, family, email) => {
   return new Promise( async(resolve, reject) => {
     const query = `INSERT INTO employees(namelastname,position,salary,family,email,date,ref_code,password) VALUES (?,?,?,?,?,?,?,?)`;
-    const date = await moment().local().format("YYYY-MM-DD HH:MM:SS");
+    const date = new Date();
     const refCode = await makeRefCode();
     const randomPassword = await makePassword();
     console.log(randomPassword);
