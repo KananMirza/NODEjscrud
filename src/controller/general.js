@@ -2,10 +2,7 @@ const generalModel = require("../model/general");
 const createError = require('http-errors')
 
 const isciGetir = async(req,res) =>{
-
    try{
-
-
     const data = await generalModel.isciGetir();
     
 
